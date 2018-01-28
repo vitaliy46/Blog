@@ -1,8 +1,8 @@
-﻿using Ninject;
+﻿using Domain.Abstract;
+using Domain.Concrete;
+using Ninject;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace WebUI.Infrastructure
@@ -11,15 +11,15 @@ namespace WebUI.Infrastructure
     {
         private IKernel kernel;
 
-        public NinjectDependencyResolver(IKernel kernelParam)
+        public NinjectDependencyResolver()
         {
-            kernel = kernelParam;
+            kernel = new StandardKernel();
             AddBindings();
         }
 
         private void AddBindings()
         {
-            //Здесь будут размещены привязки
+            kernel.Bind<IArticleRepository>().To<EFArticleRepository>();
         }
 
         public object GetService(Type serviceType)
