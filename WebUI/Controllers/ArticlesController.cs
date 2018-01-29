@@ -1,11 +1,18 @@
 ﻿using Domain.Abstract;
+using System.Web;
 using System.Web.Mvc;
+using Domain.Abstract;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
     public class ArticlesController : Controller
     {
         IArticleRepository repository;
+        public int pageSize = 4;
 
         public ArticlesController(IArticleRepository repositoryParam)
         {
@@ -13,9 +20,23 @@ namespace WebUI.Controllers
         }
 
         // GET: Articles
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            return View(repository.Articles);
+            ArticlesIndexViewModel model = new ArticlesIndexViewModel
+            {
+                Articles = repository.Articles
+                    .OrderBy(article => article.Id)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    TotalItems = repository.Articles.Count()
+                }
+            };
+
+            return View(model);
         }
 
         // GET: Articles/Details/5
