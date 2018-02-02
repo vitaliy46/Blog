@@ -5,20 +5,26 @@
     ViewBag.Title = "Статьи";
 }
 
-<div>
-    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x }))
-</div>
-
-@foreach (var article in Model.Articles)
-{
-    <div>
-        <h3>@article.Title - @article.Author</h3>
-        <p>@article.Text</p>
+<div class="row">
+    <div class="paging-container">
+        <div class="btn-group paging-btn-group float-left">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x, category = Model.CurrentCategory }))
+        </div>
     </div>
-    <hr />
-}
-
-<div>
-    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x }))
 </div>
 
+<div class="articles-container">
+    @foreach (var article in Model.Articles)
+    {
+        @Html.Partial("~/Views/Articles/_Articles.cshtml", article)
+    }
+</div>
+
+
+<div class="row">
+    <div class="paging-container">
+        <div class="btn-group paging-btn-group float-left">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x, category = Model.CurrentCategory }))
+        </div>
+    </div>
+</div>

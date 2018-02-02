@@ -69,9 +69,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IArticleRepository.cs" />
+    <Compile Include="Abstract\ICategoryRepository.cs" />
     <Compile Include="Concrete\EFArticleRepository.cs" />
+    <Compile Include="Concrete\EFCategoryRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Entities\Article.cs" />
+    <Compile Include="Entities\Category.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

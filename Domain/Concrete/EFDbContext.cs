@@ -11,5 +11,6 @@ namespace Domain.Concrete
     public class EFDbContext : DbContext
     {
         public DbSet<Article> Articles { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

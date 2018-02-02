@@ -20,11 +20,12 @@ namespace WebUI.Controllers
         }
 
         // GET: Articles
-        public ActionResult Index(int page = 1)
+        public ViewResult Index(string category, int page = 1)
         {
             ArticlesIndexViewModel model = new ArticlesIndexViewModel
             {
                 Articles = repository.Articles
+                    .Where(article => category == null || article.Category.UrlName == category)
                     .OrderBy(article => article.Id)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize),
@@ -32,8 +33,11 @@ namespace WebUI.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
-                    TotalItems = repository.Articles.Count()
-                }
+                    TotalItems = category == null ? 
+                        repository.Articles.Count() : 
+                        repository.Articles.Where(article => article.Category.UrlName == category).Count()
+                },
+                CurrentCategory = category
             };
 
             return View(model);

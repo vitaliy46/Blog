@@ -14,10 +14,7 @@
         <a class="navbar-brand" href="#">
             @Html.ActionLink("IDEACLOUDS.RU", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto topmenu">
                 <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
                 <li>@Html.ActionLink("О программе", "About", "Home")</li>
@@ -28,11 +25,19 @@
     </nav>
 
     <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
-        </footer>
+
+        <div class="row">
+
+            <div class="col-xs-12 col-md-9">
+                @RenderBody()
+            </div>
+
+            <div class="col-xs-4 col-md-3">
+                <span class="lead">Здесь будет добавлен контент позже</span>
+            </div>
+
+        </div>
+
     </div>
 
     @Scripts.Render("~/bundles/jquery")

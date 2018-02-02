@@ -15,15 +15,40 @@ namespace WebUI
 
             routes.MapRoute(
                 name: "Articles",
-                url: "{controller}/page{page}",
-                defaults: new { controller = "Articles", action = "Index" }
+                url: "",
+                defaults: new { controller = "Articles", action = "Index", category = (string) null, page = 1 }
             );
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                name: "ArticlesPage",
+                url: "page{page}",
+                defaults: new { controller = "Articles", action = "Index", category = (string)null, page = 1 },
+                constraints: new { page = @"\d+" }
             );
+
+            routes.MapRoute(
+                name: null,
+                url: "{category}",
+                defaults: new { controller = "Articles", action = "Index", page = 1 }
+            );
+
+            routes.MapRoute(
+                null,
+                "{category}/page{page}",
+                new { controller = "Articles", action = "Index" },
+                new { page = @"\d+" }
+            );
+
+            routes.MapRoute(
+                null,
+                "{controller}/{action}"
+            );
+
+            //routes.MapRoute(
+            //    name: "Default",
+            //    url: "{controller}/{action}/{id}",
+            //    defaults: new { controller = "Articles", action = "Index", id = UrlParameter.Optional }
+            //);
         }
     }
 }

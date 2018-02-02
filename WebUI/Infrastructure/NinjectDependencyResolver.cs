@@ -20,6 +20,7 @@ namespace WebUI.Infrastructure
         private void AddBindings()
         {
             kernel.Bind<IArticleRepository>().To<EFArticleRepository>();
+            kernel.Bind<ICategoryRepository>().To<EFCategoryRepository>();
         }
 
         public object GetService(Type serviceType)
