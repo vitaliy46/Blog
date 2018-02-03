@@ -11,7 +11,7 @@ namespace WebUI.Controllers
 {
     public class ArticlesController : Controller
     {
-        IArticleRepository repository;
+        private IArticleRepository repository;
         public int pageSize = 4;
 
         public ArticlesController(IArticleRepository repositoryParam)

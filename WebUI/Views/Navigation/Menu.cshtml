@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Domain.Entities.Category>
+
+<div class="list-group">
+
+    @Html.ActionLink("Главная", "Index", "Articles", null, new {
+        @class = "list-group-item font-weight-bold"
+            + (ViewBag.SelectedCategory == null ? " active" : "")
+    })
+
+    @foreach (var item in Model)
+    {
+        @Html.RouteLink(item.Name, new
+        {
+            controller = "Articles",
+            action = "Index",
+            category = item.UrlName,
+            page = 1
+        }, new
+        {
+            @class = "list-group-item" 
+                + (item.UrlName == ViewBag.SelectedCategory ? " active" : "")
+        })
+    }
+
+</div>
