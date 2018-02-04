@@ -14,6 +14,12 @@ namespace WebUI
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Admin",
+                url: "Admin",
+                defaults: new { controller = "Admin", action = "ArticlesIndex" }
+            );
+
+            routes.MapRoute(
                 name: "Articles",
                 url: "",
                 defaults: new { controller = "Articles", action = "Index", category = (string) null, page = 1 }
@@ -27,13 +33,13 @@ namespace WebUI
             );
 
             routes.MapRoute(
-                name: null,
+                name: "ArticlesCategory",
                 url: "{category}",
                 defaults: new { controller = "Articles", action = "Index", page = 1 }
             );
 
             routes.MapRoute(
-                null,
+                "ArticlesCategoryPage",
                 "{category}/page{page}",
                 new { controller = "Articles", action = "Index" },
                 new { page = @"\d+" }
@@ -43,6 +49,8 @@ namespace WebUI
                 null,
                 "{controller}/{action}"
             );
+
+            
 
             //routes.MapRoute(
             //    name: "Default",
