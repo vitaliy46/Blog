@@ -14,13 +14,13 @@ namespace WebUI.Controllers
         private IArticleRepository repository;
         public int pageSize = 4;
 
-        public ArticlesController(IArticleRepository repositoryParam)
+        public ArticlesController(IArticleRepository repo)
         {
-            repository = repositoryParam;
+            repository = repo;
         }
 
         // GET: Articles
-        public ViewResult Index(string category, int page = 1)
+        public ActionResult Index(string category, int page = 1)
         {
             ArticlesIndexViewModel model = new ArticlesIndexViewModel
             {

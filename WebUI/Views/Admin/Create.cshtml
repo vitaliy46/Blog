@@ -5,17 +5,17 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Create</h2>
+<h2>Новая статья</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Article</h4>
+        <h4>Новая статья</h4>
         <hr />
-        @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -57,7 +57,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Вернуться к списку", "/", "Admin")
 </div>
 
 @section Scripts {

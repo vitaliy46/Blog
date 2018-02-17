@@ -15,35 +15,41 @@ namespace WebUI.Controllers
 {
     public class AdminController : Controller
     {
-        private EFDbContext db = new EFDbContext();
+        //private EFDbContext db = new EFDbContext();
 
         private IArticleRepository articleRepository;
         private ICategoryRepository categoryRepository;
 
-        public AdminController(IArticleRepository articleRepositoryParam, ICategoryRepository categoryRepositoryParam)
+        public AdminController(IArticleRepository articleRepo, ICategoryRepository categoryRepo)
         {
-            articleRepository = articleRepositoryParam;
-            categoryRepository = categoryRepositoryParam;
+            articleRepository = articleRepo;
+            categoryRepository = categoryRepo;
         }
 
         // GET: Admin
-        public ViewResult ArticlesIndex()
+        public ActionResult ArticlesIndex()
         {
             return View(articleRepository.Articles);
         }
 
         // GET: Admin/Details/5
-        public ViewResult Details(int? id)
+        public ActionResult Details(int? id)
         {
-            Article article = articleRepository.Articles.FirstOrDefault(a => a.Id == id);
+            if(id != null)
+            {
+                Article article = articleRepository.Articles.FirstOrDefault(a => a.Id == id);
+                return View(article);
+            }
 
-            return View(article);
+            return Redirect("/Admin");
         }
 
         // GET: Admin/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
+            //ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
+            ViewBag.CategoryId = new SelectList(categoryRepository.Categories, "Id", "Name");
+
             return View();
         }
 
@@ -52,26 +58,32 @@ namespace WebUI.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Text,Author,CategoryId")] Article article)
+        public ActionResult Create([Bind(Include = "Id,Title,Text,Author,CategoryId")] Article article)
         {
             if (ModelState.IsValid)
             {
-                db.Articles.Add(article);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                articleRepository.Save(article);
+                TempData["message"] = string.Format("Статья \"{0}\" сохранена", article.Title);
+                return Redirect("/Admin");
             }
 
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", article.CategoryId);
+            ViewBag.CategoryId = new SelectList(categoryRepository.Categories, "Id", "Name", article.CategoryId);
+
             return View(article);
         }
 
         // GET: Admin/Edit/5
-        public ViewResult Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             Article article = articleRepository.Articles.FirstOrDefault(a => a.Id == id);
-            ViewBag.Category = new SelectList(categoryRepository.Categories, "Id", "Name", article.CategoryId);
 
-            return View(article);
+            if(article != null)
+            {
+                ViewBag.CategoryId = new SelectList(categoryRepository.Categories, "Id", "Name", article.CategoryId);
+                return View(article);
+            }
+
+            return Redirect("/Admin");
         }
 
         // POST: Admin/Edit/5
@@ -84,20 +96,27 @@ namespace WebUI.Controllers
             if (ModelState.IsValid)
             {
                 articleRepository.Save(article);
-                TempData["message"] = string.Format("Изменение информации о книге \"{0}\" сохранены", article.Title);
-                return RedirectToAction("Index");
+                TempData["message"] = string.Format("Изменения \"{0}\" сохранены", article.Title);
+                return Redirect("/Admin");
             }
+
             ViewBag.CategoryId = new SelectList(categoryRepository.Categories, "Id", "Name", article.CategoryId);
 
             return View(article);
         }
 
         // GET: Admin/Delete/5
-        public ViewResult Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             Article article = articleRepository.Articles.FirstOrDefault(a => a.Id == id);
-            
-            return View(article);
+
+            if (article != null)
+            {
+                ViewBag.CategoryId = new SelectList(categoryRepository.Categories, "Id", "Name", article.CategoryId);
+                return View(article);
+            }
+
+            return Redirect("/Admin");
         }
 
         // POST: Admin/Delete/5
@@ -106,17 +125,23 @@ namespace WebUI.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Article article = articleRepository.Articles.FirstOrDefault(a => a.Id == id);
-            articleRepository.Remove(article);
 
-            return RedirectToAction("Index");
+            if (article != null)
+            {
+                articleRepository.Remove(article);
+                TempData["message"] = "Статья удалена";
+                return Redirect("/Admin");
+            }
+
+            return Redirect("/Admin");
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
+            //if (disposing)
+            //{
+            //    db.Dispose();
+            //}
             base.Dispose(disposing);
         }
     }

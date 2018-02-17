@@ -20,6 +20,30 @@ namespace WebUI
             );
 
             routes.MapRoute(
+                name: "AdminArticleDetails",
+                url: "Admin/Details/{id}",
+                defaults: new { controller = "Admin", action = "Details", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "AdminArticleCreate",
+                url: "Admin/Create",
+                defaults: new { controller = "Admin", action = "Create" }
+            );
+
+            routes.MapRoute(
+                name: "AdminArticleEdit",
+                url: "Admin/Edit/{id}",
+                defaults: new { controller = "Admin", action = "Edit", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "AdminArticleDelete",
+                url: "Admin/Delete/{id}",
+                defaults: new { controller = "Admin", action = "Delete", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Articles",
                 url: "",
                 defaults: new { controller = "Articles", action = "Index", category = (string) null, page = 1 }
