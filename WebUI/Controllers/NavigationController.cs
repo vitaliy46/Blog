@@ -11,9 +11,9 @@ namespace WebUI.Controllers
     {
         private ICategoryRepository repository;
 
-        public NavigationController(ICategoryRepository repositoryParam)
+        public NavigationController(ICategoryRepository repo)
         {
-            repository = repositoryParam;
+            repository = repo;
         }
 
         public PartialViewResult Menu(string category = null)

@@ -16,7 +16,7 @@ namespace Domain.Entities
         [Display(Name = "ID")]
         public int Id { get; set; }
 
-        [Display(Name = "Название")]
+        [Display(Name = "Категория")]
         [Required(ErrorMessage = "Пожалуйста, введите название категории")]
         public string Name { get; set; }
 

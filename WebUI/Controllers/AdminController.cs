@@ -13,6 +13,7 @@ using Domain.Abstract;
 
 namespace WebUI.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         //private EFDbContext db = new EFDbContext();
@@ -58,7 +59,7 @@ namespace WebUI.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Text,Author,CategoryId")] Article article)
+        public ActionResult Create([Bind(Include = "Id,Title,ShortText,Text,Author,CategoryId")] Article article)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +92,7 @@ namespace WebUI.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Text,Author,CategoryId")] Article article)
+        public ActionResult Edit([Bind(Include = "Id,Title,ShortText,Text,Author,CategoryId")] Article article)
         {
             if (ModelState.IsValid)
             {

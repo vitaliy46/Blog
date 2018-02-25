@@ -26,6 +26,7 @@ namespace Domain.Concrete
                 if (dbEntry != null)
                 {
                     dbEntry.Title = article.Title;
+                    dbEntry.ShortText = article.ShortText;
                     dbEntry.Text = article.Text;
                     dbEntry.Author = article.Author;
                     dbEntry.CategoryId = article.CategoryId;

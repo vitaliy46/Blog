@@ -15,8 +15,16 @@ namespace Domain.Entities
         [Required(ErrorMessage = "Пожалуйста, введите заголовок статьи")]
         public string Title { get; set; }
 
+        [Display(Name = "Краткий текст")]
+        [Required(ErrorMessage = "Пожалуйста, введите краткий текст статьи")]
+        [AllowHtml]
+        [DataType(DataType.MultilineText)]
+        public string ShortText { get; set; }
+
         [Display(Name = "Текст")]
         [Required(ErrorMessage = "Пожалуйста, введите текст статьи")]
+        [AllowHtml]
+        [DataType(DataType.MultilineText)]
         public string Text { get; set; }
 
         [Display(Name = "Автор")]
