@@ -3,40 +3,52 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Domain.Abstract;
 using Domain.Concrete;
 using Domain.Entities;
-using Domain.Abstract;
+using WebUI.Models;
 
-namespace WebUI.Controllers
+namespace WebUI.Areas.Admin.Controllers
 {
-    [Authorize]
-    public class AdminController : Controller
+    public class ArticlesController : Controller
     {
-        //private EFDbContext db = new EFDbContext();
-
         private IArticleRepository articleRepository;
         private ICategoryRepository categoryRepository;
+        public int pageSize = 10;
 
-        public AdminController(IArticleRepository articleRepo, ICategoryRepository categoryRepo)
+        public ArticlesController(IArticleRepository articleRepo, ICategoryRepository categoryRepo)
         {
             articleRepository = articleRepo;
             categoryRepository = categoryRepo;
         }
-
-        // GET: Admin
-        public ActionResult ArticlesIndex()
+        // GET: Admin/Articles
+        public ActionResult Index(int page = 1)
         {
-            return View(articleRepository.Articles);
+            ArticlesIndexViewModel model = new ArticlesIndexViewModel
+            {
+                Articles = articleRepository.Articles
+                    .OrderBy(article => article.Id)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize,
+                    TotalItems = articleRepository.Articles.Count()
+                },
+                CurrentCategory = null
+            };
+
+            return View(model);
         }
 
-        // GET: Admin/Details/5
+        // GET: Admin/Articles/Details/5
         public ActionResult Details(int? id)
         {
-            if(id != null)
+            if (id != null)
             {
                 Article article = articleRepository.Articles.FirstOrDefault(a => a.Id == id);
                 return View(article);
@@ -45,16 +57,15 @@ namespace WebUI.Controllers
             return Redirect("/Admin");
         }
 
-        // GET: Admin/Create
+        // GET: Admin/Articles/Create
         public ActionResult Create()
         {
-            //ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
             ViewBag.CategoryId = new SelectList(categoryRepository.Categories, "Id", "Name");
 
             return View();
         }
 
-        // POST: Admin/Create
+        // POST: Admin/Articles/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -73,12 +84,12 @@ namespace WebUI.Controllers
             return View(article);
         }
 
-        // GET: Admin/Edit/5
+        // GET: Admin/Articles/Edit/5
         public ActionResult Edit(int? id)
         {
             Article article = articleRepository.Articles.FirstOrDefault(a => a.Id == id);
 
-            if(article != null)
+            if (article != null)
             {
                 ViewBag.CategoryId = new SelectList(categoryRepository.Categories, "Id", "Name", article.CategoryId);
                 return View(article);
@@ -87,7 +98,7 @@ namespace WebUI.Controllers
             return Redirect("/Admin");
         }
 
-        // POST: Admin/Edit/5
+        // POST: Admin/Articles/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -106,7 +117,7 @@ namespace WebUI.Controllers
             return View(article);
         }
 
-        // GET: Admin/Delete/5
+        // GET: Admin/Articles/Delete/5
         public ActionResult Delete(int? id)
         {
             Article article = articleRepository.Articles.FirstOrDefault(a => a.Id == id);
@@ -120,7 +131,7 @@ namespace WebUI.Controllers
             return Redirect("/Admin");
         }
 
-        // POST: Admin/Delete/5
+        // POST: Admin/Articles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -139,10 +150,6 @@ namespace WebUI.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            //if (disposing)
-            //{
-            //    db.Dispose();
-            //}
             base.Dispose(disposing);
         }
     }

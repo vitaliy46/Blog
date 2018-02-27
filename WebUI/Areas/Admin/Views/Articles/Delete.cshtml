@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Статья: удаление";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>@Model.Title</h2>
@@ -46,12 +45,14 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
             <input type="submit" value="Удалить" class="btn btn-default" /> |
-            @Html.ActionLink("Вернуться к списку", "/", "Admin")
+            @Html.ActionLink("Вернуться к списку", "Index", "Articles")
         </div>
     }
 </div>
+

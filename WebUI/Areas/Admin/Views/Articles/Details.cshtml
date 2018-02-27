@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = $"Статья: {Model.Title}";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>@Model.Title</h2>
@@ -47,5 +46,6 @@
 </div>
 <p>
     @Html.ActionLink("Редактирование", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Вернуться к списку", "/", "Admin")
+    @Html.ActionLink("Вернуться к списку", "Index", "Articles")
 </p>
+

@@ -1,0 +1,73 @@
+﻿@using WebUI.HtmlHelpers
+@model WebUI.Models.ArticlesIndexViewModel
+
+@{
+    ViewBag.Title = "Администрирование: Статьи";
+}
+
+<h2>Список статей</h2>
+<p>
+    @Html.ActionLink("Новая статья", "Create")
+</p>
+
+<div class="row">
+    <div class="paging-container">
+        <div class="btn-group paging-btn-group float-right">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x, category = Model.CurrentCategory }))
+        </div>
+    </div>
+</div>
+
+<div class="articles-container">
+
+    <table class="table">
+        <tr>
+            <th>
+                Заголовок
+            </th>
+            <th>
+                Краткий текст
+            </th>
+            <th>
+                Автор
+            </th>
+            <th>
+                Категория
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Articles)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.Raw(item.ShortText)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Подробно", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>
+
+<div class="row">
+    <div class="paging-container">
+        <div class="btn-group paging-btn-group float-right">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x, category = Model.CurrentCategory }))
+        </div>
+    </div>
+</div>

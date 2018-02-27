@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Статья: редактирование";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Редактирование</h2>
@@ -67,7 +66,7 @@
 }
 
 <div>
-    @Html.ActionLink("Вернуться к списку", "/", "Admin")
+    @Html.ActionLink("Вернуться к списку", "Index", "Articles")
 </div>
 
 @section Scripts {
@@ -116,7 +115,7 @@
                     input.setAttribute('type', 'file');
                     input.setAttribute('accept', 'image/*');
 
-                    // Note: In modern browsers input[type="file"] is functional without 
+                    // Note: In modern browsers input[type="file"] is functional without
                     // even adding it to the DOM, but that might not be the case in some older
                     // or quirky browsers like IE, so you might want to add it to the DOM
                     // just in case, and visually hide it. And do not forget do remove it
