@@ -107,6 +107,8 @@
                 paste_data_images: true,
                 images_upload_url: '/Image/Upload',
                 images_upload_base_path: '/Uploads',
+                // решение проблем с путями к файлам (../ || ../../)
+                relative_urls: false,
                 // here we add custom filepicker only to Image dialog
                 file_picker_types: 'image',
                 // and here's our custom image picker
